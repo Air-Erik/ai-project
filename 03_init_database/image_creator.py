@@ -7,9 +7,9 @@ from psycopg import sql
 # о хронящихся там изображениях.
 
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\02_mark\\images'
+pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
 # Название схемы и таблиц
-schema_name_in_db = 'workflow'
+schema_name_in_db = 'general'
 image_table_name_in_db = 'image_data'
 drawing_table_name_in_db = 'drawing_data'
 
@@ -31,7 +31,7 @@ def image_data_creater():
 
     # Создание SQL запроса на извлечение данных о изображениях
     query_return = sql.SQL('''
-        SELECT image_name FROM {}
+        SELECT name FROM {}
         ''').format(sql.Identifier(schema_name_in_db, image_table_name_in_db))
 
     # Подключение к базе данных и исполнение SQL запроса на извлечение данных
@@ -52,7 +52,7 @@ def image_data_creater():
     # [[Название чертежа, номер строки, номер столбца], ...]
     unpack_image_names = []
     for name in image_names_new:
-        unpack_image_names.append(name.replace('.jpg', '').split('_'))
+        unpack_image_names.append(name.replace('.png', '').split('_'))
 
     # Вывод информации о изображениях для вставки в БД
     print('Информация о добавляемых изображениях:', unpack_image_names, '',
@@ -61,8 +61,8 @@ def image_data_creater():
     # Создание SQL запроса на добавление данных о изображениях
     query_input = sql.SQL('''
         INSERT INTO {table_img}
-        (image_name, plan_name, plan_id, row_image, column_image)
-        VALUES (%s, %s, (SELECT plan_id FROM {table_pln} WHERE plan_name = %s),
+        (name, plan_name, plan_id, col, row)
+        VALUES (%s, %s, (SELECT id FROM {table_pln} WHERE name = %s),
         %s, %s)
     ''').format(
         table_img=sql.Identifier(schema_name_in_db, image_table_name_in_db),

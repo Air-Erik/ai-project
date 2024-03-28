@@ -12,13 +12,14 @@ from image_creator import file_names_and_pth_creator
 
 
 # Название схемы и таблиц и папки с обученными весами
-schema_name_in_db = 'workflow'
+schema_box = 'box'
+schema_general = 'general'
 class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
-raw_mark_table_name_in_db = 'raw_mark_data'
+raw_mark_table_name_in_db = 'raw_mark'
 weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\02_mark\\weight\\best.pt"
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\02_mark\\images'
+pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
 
 
 def mark_add():
@@ -33,14 +34,14 @@ def mark_add():
         (x_1, y_1, x_2, y_2, percent, image_name, class_id, image_id, plan_id)
         SELECT
             %s, %s, %s, %s, %s, %s,
-            (SELECT class_id FROM {table_class} WHERE class = %s),
-            (SELECT image_id FROM {table_image} WHERE image_name = %s),
-            (SELECT plan_id FROM {table_image} WHERE image_name = %s)
+            (SELECT id FROM {table_class} WHERE name = %s),
+            (SELECT id FROM {table_image} WHERE name = %s),
+            (SELECT plan_id FROM {table_image} WHERE name = %s)
     ''').format(
-        table_raw_mark=sql.Identifier(schema_name_in_db,
+        table_raw_mark=sql.Identifier(schema_box,
                                       raw_mark_table_name_in_db),
-        table_class=sql.Identifier(schema_name_in_db, class_table_name_in_db),
-        table_image=sql.Identifier(schema_name_in_db, image_table_name_in_db)
+        table_class=sql.Identifier(schema_general, class_table_name_in_db),
+        table_image=sql.Identifier(schema_general, image_table_name_in_db)
     )
 
     # Загрузка модели для пердсказания
