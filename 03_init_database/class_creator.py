@@ -7,9 +7,9 @@ from psycopg import sql
 # И заполняет таблицу classes в базе данных postgreSQL
 
 # Путь к yaml файлу датасета
-pth_dataset = '''../01_learn/datasets/AutoCAD_Topo_v7/data.yaml'''
+pth_dataset = '''../04_segment/01_Ultralytics/datasets/png_pipe_4cls.v5/data.yaml'''
 # Название схемы и таблицы
-schema_name_in_db = 'workflow'
+schema_name_in_db = 'general'
 table_name_in_db = 'classes'
 
 
@@ -22,7 +22,7 @@ def main():
 
     # Создание SQL запроса на извлечение данных о классах
     query_return = sql.SQL('''
-        SELECT class FROM {}
+        SELECT name FROM {}
         ''').format(sql.Identifier(schema_name_in_db, table_name_in_db))
 
     # Подключение к базе данных и исполнение SQL запроса на извлечение данных
@@ -46,7 +46,7 @@ def main():
 
     # Создание SQL запроса на вставку данных о классах
     query_input = sql.SQL('''
-        INSERT INTO {table_val} (class) VALUES ({len_val})
+        INSERT INTO {table_val} (name) VALUES ({len_val})
     ''').format(
         table_val=sql.Identifier(schema_name_in_db, table_name_in_db),
         len_val=sql.SQL('), (').join(sql.Placeholder() * len(class_names_new))
