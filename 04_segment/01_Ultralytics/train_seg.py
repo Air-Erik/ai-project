@@ -13,14 +13,15 @@ def main():
 
     # ClearML; Определение модели на которой будет происходить обучение
     model_name = "yolov8l"
-    dataset_name = 'png_pipe_4cls.v5'
+    dataset_name = 'png_pipe_4cls.v7'
 
     args = dict(data=f'datasets/{dataset_name}/data.yaml',
-                epochs=120,
+                epochs=200,
                 imgsz=640,
-                freeze=10,
                 patience=30,
-                overlap_mask=True
+                overlap_mask=True,
+                weight_decay=0.001,
+                copy_paste=1.0
                 )
 
     # ClearML; Создание объекта задачи для clearml, описывает проект и
@@ -31,8 +32,9 @@ def main():
         tags=['png',
               model_name,
               f"epoch={args['epochs']}",
-              f"freeze={args['freeze']}",
-              f"patience={args['patience']}"
+              f"patience={args['patience']}",
+              f"weight_decay={args['weight_decay']}",
+              f"copy_paste={args['copy_paste']}"
               ]
         )
     task.set_parameter("model_variant", model_name)
