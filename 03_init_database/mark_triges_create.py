@@ -3,11 +3,12 @@ from psycopg import sql
 
 
 # Название схемы и таблиц
-schema_name_in_db = 'workflow'
-drawing_table_name_in_db = 'drawing_data'
-image_table_name_in_db = 'image_data'
-raw_mark_table_name_in_db = 'raw_mark_data'
-mark_table_name_in_db = 'mark_data'
+schema_box = 'box'
+schema_general = 'general'
+drawing_tab = 'drawing_data'
+image_tab = 'image_data'
+raw_mark_tab = 'raw_mark'
+mark_tab = 'mark'
 
 # SQL запрос на создание функции проверки строки на уникальность по  5 столбцам
 query_befor_insert = sql.SQL('''
@@ -32,7 +33,7 @@ query_befor_insert = sql.SQL('''
         RETURN NEW;
     END;
     $$ LANGUAGE plpgsql;
-''').format(table=sql.Identifier(schema_name_in_db, raw_mark_table_name_in_db))
+''').format(table=sql.Identifier(schema_box, raw_mark_tab))
 
 # SQL запрос на создание тригера перед вставкой для проверки уникальности
 query_triger_before_insert = sql.SQL('''
@@ -40,7 +41,7 @@ query_triger_before_insert = sql.SQL('''
     BEFORE INSERT ON {table}
     FOR EACH ROW
     EXECUTE FUNCTION before_insert();
-''').format(table=sql.Identifier(schema_name_in_db, raw_mark_table_name_in_db))
+''').format(table=sql.Identifier(schema_box, raw_mark_tab))
 
 # SQL запрос на создание функции вычисления реальных координат
 query_after_insert = sql.SQL('''
@@ -53,19 +54,19 @@ query_after_insert = sql.SQL('''
         y_from_plan numeric;
 
     BEGIN
-        SELECT row_image, column_image INTO row_plan, column_plan
+        SELECT row, col INTO row_plan, column_plan
         FROM {table_image}
-        WHERE image_id = NEW.image_id;
+        WHERE id = NEW.image_id;
 
         SELECT x_origin, y_origin INTO x_from_plan, y_from_plan
         FROM {table_pln}
-        WHERE plan_id = NEW.plan_id;
+        WHERE id = NEW.plan_id;
 
     -- Проверяет тип операции после которой выполняется
         IF TG_OP = 'INSERT' THEN
             -- Вставляет реальные координаты
             INSERT INTO {table_mark}
-                (mark_id,
+                (id,
                 x_1_final,
                 y_1_final,
                 x_2_final,
@@ -74,7 +75,7 @@ query_after_insert = sql.SQL('''
                 plan_id
                 )
             VALUES
-                (NEW.mark_id,
+                (NEW.id,
                 (x_from_plan) + (NEW.x_1 / 20) + (28 * column_plan),
                 (y_from_plan) - (NEW.y_1 / 20) - (28 * row_plan),
                 (x_from_plan) + (NEW.x_2 / 20) + (28 * column_plan),
@@ -85,22 +86,22 @@ query_after_insert = sql.SQL('''
         ELSIF TG_OP = 'UPDATE' THEN
             -- Обновляет координаты
             UPDATE {table_mark}
-            SET mark_id = NEW.mark_id,
+            SET id = NEW.id,
                 x_1_final = (x_from_plan) + (NEW.x_1 / 20) + (28 * column_plan),
                 y_1_final = (y_from_plan) - (NEW.y_1 / 20) - (28 * row_plan),
                 x_2_final = (x_from_plan) + (NEW.x_2 / 20) + (28 * column_plan),
                 y_2_final = (y_from_plan) - (NEW.y_2 / 20) - (28 * row_plan),
                 class_id = NEW.class_id,
                 plan_id = NEW.plan_id
-            WHERE mark_id = OLD.mark_id;
+            WHERE id = OLD.id;
         END IF;
         RETURN NEW;
     END;
     $$ LANGUAGE plpgsql;
 ''').format(
-    table_mark=sql.Identifier(schema_name_in_db, mark_table_name_in_db),
-    table_pln=sql.Identifier(schema_name_in_db, drawing_table_name_in_db),
-    table_image=sql.Identifier(schema_name_in_db, image_table_name_in_db)
+    table_mark=sql.Identifier(schema_box, mark_tab),
+    table_pln=sql.Identifier(schema_general, drawing_tab),
+    table_image=sql.Identifier(schema_general, image_tab)
 )
 
 # SQL запрос на создания тригера после вставки строки, добавлять экземпляр
@@ -110,7 +111,7 @@ query_triger_after_insert = sql.SQL('''
     AFTER INSERT OR UPDATE ON {table}
         FOR EACH ROW
     EXECUTE FUNCTION coordinate_conversion();
-''').format(table=sql.Identifier(schema_name_in_db, raw_mark_table_name_in_db))
+''').format(table=sql.Identifier(schema_box, raw_mark_tab))
 
 # Подключение к датабейзу и выполнение запросов
 with psycopg.connect('dbname=ai_project user=API_write_data \
