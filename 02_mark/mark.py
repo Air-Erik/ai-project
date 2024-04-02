@@ -63,9 +63,9 @@ def mark_add():
         class_id = r.boxes.cls.cpu().numpy()
 
         # Создание размеченых изображений
-        # im_array = r.plot()
-        # im = Image.fromarray(im_array[..., ::-1])
-        # im.save(f'result/{image_name}')
+        im_array = r.plot()
+        im = Image.fromarray(im_array[..., ::-1])
+        im.save(f'result/{image_name}')
 
         # Создание списка имен классов из словаря. Словарь r.names
         class_names_new = [r.names.get(ind) for ind in class_id]
