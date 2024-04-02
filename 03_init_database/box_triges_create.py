@@ -12,7 +12,7 @@ mark_tab = 'mark'
 
 # SQL запрос на создание функции проверки строки на уникальность по  5 столбцам
 query_befor_insert = sql.SQL('''
-    CREATE OR REPLACE FUNCTION before_insert()
+    CREATE OR REPLACE FUNCTION before_insert_box()
     RETURNS TRIGGER AS $$
     BEGIN
         -- Проверяем наличие дубликатов перед вставкой
@@ -40,12 +40,12 @@ query_triger_before_insert = sql.SQL('''
     CREATE OR REPLACE TRIGGER check_unique_before_insert
     BEFORE INSERT ON {table}
     FOR EACH ROW
-    EXECUTE FUNCTION before_insert();
+    EXECUTE FUNCTION before_insert_box();
 ''').format(table=sql.Identifier(schema_box, raw_mark_tab))
 
 # SQL запрос на создание функции вычисления реальных координат
 query_after_insert = sql.SQL('''
-    CREATE OR REPLACE FUNCTION coordinate_conversion()
+    CREATE OR REPLACE FUNCTION coordinate_conversion_box()
     RETURNS TRIGGER AS $$
     DECLARE
         row_plan integer;
@@ -110,7 +110,7 @@ query_triger_after_insert = sql.SQL('''
     CREATE OR REPLACE TRIGGER add_results_to_final_tabel
     AFTER INSERT OR UPDATE ON {table}
         FOR EACH ROW
-    EXECUTE FUNCTION coordinate_conversion();
+    EXECUTE FUNCTION coordinate_conversion_box();
 ''').format(table=sql.Identifier(schema_box, raw_mark_tab))
 
 # Подключение к датабейзу и выполнение запросов
