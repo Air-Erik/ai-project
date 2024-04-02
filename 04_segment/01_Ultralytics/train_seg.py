@@ -12,25 +12,26 @@ def main():
     print(torch.cuda.get_device_name(0))
 
     # ClearML; Определение модели на которой будет происходить обучение
-    model_name = "yolov8l"
+    model_name = "yolov8n"
     dataset_name = 'png_pipe_4cls.v7'
 
     args = dict(data=f'datasets/{dataset_name}/data.yaml',
-                epochs=200,
+                epochs=100,
                 imgsz=640,
                 patience=30,
-                overlap_mask=True,
                 weight_decay=0.001,
-                copy_paste=1.0
+                copy_paste=1.0,
+                optimizer='SGD'
                 )
 
     # ClearML; Создание объекта задачи для clearml, описывает проект и
     # название текущей сессии
     task = Task.init(
-        project_name="AutoCAD_segment",
+        project_name="Segment_png_only",
         task_name=dataset_name,
         tags=['png',
               model_name,
+              f"optimizer={args['optimizer']}",
               f"epoch={args['epochs']}",
               f"patience={args['patience']}",
               f"weight_decay={args['weight_decay']}",
