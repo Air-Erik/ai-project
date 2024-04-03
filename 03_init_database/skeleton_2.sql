@@ -1,3 +1,7 @@
-INSERT INTO workflow.skelet_pipe_data (id, skelet)
-SELECT id, ST_CollectionExtract(ST_ApproximateMedialAxis(ST_SimplifyPolygonHull(mask, 0.1)), 2)
-FROM workflow.raw_mask_data;
+INSERT INTO pipe.raw_pipe (id, pipe, class_id, plan_id)
+SELECT 
+	m.id
+	ST_SnapToGrid(ST_CollectionExtract(ST_ApproximateMedialAxis(ST_SimplifyPolygonHull(m.mask_join, 0.1)), 2), 0.01),
+	m.class_id,
+	m.plan_id 
+FROM pipe.mask_join m;
