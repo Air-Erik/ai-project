@@ -12,16 +12,16 @@ def main():
     print(torch.cuda.get_device_name(0))
 
     # ClearML; Определение модели на которой будет происходить обучение
-    model_name = "yolov8n"
-    dataset_name = 'png_pipe_4cls.v7'
+    model_name = "yolov8l"
+    dataset_name = 'png_pipe_4cls.v8'
 
     args = dict(data=f'datasets/{dataset_name}/data.yaml',
+                #optimizer='SGD',
                 epochs=100,
                 imgsz=640,
                 patience=30,
                 weight_decay=0.001,
-                copy_paste=1.0,
-                optimizer='SGD'
+                copy_paste=1.0
                 )
 
     # ClearML; Создание объекта задачи для clearml, описывает проект и
@@ -31,7 +31,7 @@ def main():
         task_name=dataset_name,
         tags=['png',
               model_name,
-              f"optimizer={args['optimizer']}",
+              #f"optimizer={args['optimizer']}",
               f"epoch={args['epochs']}",
               f"patience={args['patience']}",
               f"weight_decay={args['weight_decay']}",
