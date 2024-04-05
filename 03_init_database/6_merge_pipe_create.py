@@ -24,7 +24,8 @@ query_merge = sql.SQL(
         clustered_lines AS (
             SELECT
                 line,
-                ST_ClusterDBSCAN(line, eps := 0, minpoints := 1) OVER () AS cluster_id,
+                ST_ClusterDBSCAN(line, eps := 0, minpoints := 1)
+                    OVER () AS cluster_id,
                 class_id,
                 plan_id
             FROM
