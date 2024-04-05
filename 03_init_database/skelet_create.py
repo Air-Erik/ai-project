@@ -3,7 +3,7 @@ from psycopg import sql
 
 # Название схемы и таблиц
 schema_pipe = 'pipe'
-raw_mask_tab = 'raw_mask'
+raw_pipe_tab = 'raw_pipe'
 mask_tab = 'mask'
 mask_join_tab = 'mask_join'
 
@@ -21,9 +21,12 @@ query_skelet = sql.SQL(
             m.plan_id
         FROM
             {table_mask_join} m;
+    END;
+    $$
+    LANGUAGE plpgsql;
     '''
 ).format(
-    table_raw_pipe=sql.Identifier(schema_pipe, raw_mask_tab),
+    table_raw_pipe=sql.Identifier(schema_pipe, raw_pipe_tab),
     table_mask_join=sql.Identifier(schema_pipe, mask_join_tab)
 )
 
