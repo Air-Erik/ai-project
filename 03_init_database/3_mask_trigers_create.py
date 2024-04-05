@@ -10,7 +10,7 @@ image_tab = 'image_data'
 raw_mask_tab = 'raw_mask'
 mask_tab = 'mask'
 
-# SQL запрос на создание функции проверки строки на уникальность по  5 столбцам
+# SQL запрос на создание функции проверки строки на уникальность по столбцам
 query_befor_insert = sql.SQL('''
     CREATE OR REPLACE FUNCTION before_insert_pipe()
     RETURNS TRIGGER AS $$
