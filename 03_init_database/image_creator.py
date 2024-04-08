@@ -52,7 +52,7 @@ def image_data_creater():
     # [[Название чертежа, номер строки, номер столбца], ...]
     unpack_image_names = []
     for name in image_names_new:
-        unpack_image_names.append(name.replace('.png', '').split('_'))
+        unpack_image_names.append(name.replace('.png', '').replace('.jpg', '').split('_'))
 
     # Вывод информации о изображениях для вставки в БД
     print('Информация о добавляемых изображениях:', unpack_image_names, '',
