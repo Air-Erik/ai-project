@@ -1,0 +1,1 @@
+select dump_merge_pipe();
