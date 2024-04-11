@@ -7,7 +7,7 @@ from psycopg import sql
 # И заполняет таблицу classes в базе данных postgreSQL
 
 # Путь к yaml файлу датасета
-pth_dataset = '''../04_segment/01_Ultralytics/datasets/png_pipe_4cls.v5/data.yaml'''
+pth_dataset = '''../04_segment/01_Ultralytics/datasets/png_pipe_6cls_long.v1/data.yaml'''
 # Название схемы и таблицы
 schema_name_in_db = 'general'
 table_name_in_db = 'classes'
