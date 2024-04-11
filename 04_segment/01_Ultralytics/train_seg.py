@@ -41,8 +41,9 @@ def main():
         #weight_decay=0.001,
         overlap_mask=False,
         degrees=45,
-        scale=0.1,
+        scale=0,
         fliplr=0,
+        mosaic=0,
         mixup=0.5,
         copy_paste=1
     )
@@ -59,7 +60,7 @@ def main():
         )
     task.set_parameter("model_variant", model_name)
 
-    model = YOLO(f'{model_name}-seg.pt')
+    model = YOLO(f'{model_name}-seg.yaml')
 
     task.connect(args)
 
