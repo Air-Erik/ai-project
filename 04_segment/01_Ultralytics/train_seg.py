@@ -4,6 +4,7 @@ import torch
 
 
 torch.backends.cuda.matmul.allow_tf32 = True
+torch.cuda.memory.set_per_process_memory_fraction(0.5)
 
 
 # Функция для создания списка тегов из словаря гиперпараметров
@@ -23,7 +24,6 @@ def main():
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
     print(torch.cuda.current_device())
-    print(torch.cuda.device(0))
     print(torch.cuda.get_device_name(0))
     print(torch.backends.cuda.matmul.allow_tf32)
 
@@ -35,7 +35,7 @@ def main():
     args = dict(
         data=f'datasets/{dataset_name}/data.yaml',
         #optimizer='SGD',
-        epochs=100,
+        epochs=10,
         imgsz=640,
         patience=30,
         #weight_decay=0.001,
@@ -43,7 +43,6 @@ def main():
         degrees=45,
         scale=0,
         fliplr=0,
-        mosaic=0,
         mixup=0.5,
         copy_paste=1
     )
@@ -60,11 +59,13 @@ def main():
         )
     task.set_parameter("model_variant", model_name)
 
-    model = YOLO(f'{model_name}-seg.yaml')
+    model = YOLO(f'{model_name}-seg.pt')
 
     task.connect(args)
 
     model.train(**args)
+
+    print(torch.cuda.memory.memory_summary())
 
 
 if __name__ == '__main__':
