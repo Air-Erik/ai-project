@@ -19,7 +19,7 @@ class_tab = 'classes'
 image_tab = 'image_data'
 drawing_tab = 'drawing_data'
 raw_mask_tab = 'raw_mask'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\train44\\weights\\best.pt"
+weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\train62\\weights\\best.pt"
 # Путь к папке с файлами для анализа
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\datasets\\png_pipe_4cls.v4\\test\\images'
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'

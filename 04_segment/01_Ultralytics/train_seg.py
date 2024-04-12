@@ -1,10 +1,17 @@
 from clearml import Task
 from ultralytics import YOLO
 import torch
+import os
+import sys
 
 
 torch.backends.cuda.matmul.allow_tf32 = True
-torch.cuda.memory.set_per_process_memory_fraction(0.5)
+#torch.cuda.memory.set_per_process_memory_fraction(0.5)
+
+# Получаем путь к директории, где находится скрипт
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Меняем текущую рабочую директорию
+os.chdir(script_dir)
 
 
 # Функция для создания списка тегов из словаря гиперпараметров
@@ -28,7 +35,7 @@ def main():
     print(torch.backends.cuda.matmul.allow_tf32)
 
     # ClearML; Определение модели на которой будет происходить обучение
-    model_name = "yolov8n"
+    model_name = "yolov8l"
     dataset_name = 'png_pipe_6cls_long.v1'
 
     # Словарь гиперпараметров модели

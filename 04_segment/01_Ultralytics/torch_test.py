@@ -27,5 +27,7 @@ def tags_for_clearml(args):
     return args_list
 
 
-print(*tags_for_clearml(args))
-print(args)
+#print(*tags_for_clearml(args))
+#print(args)
+
+print(torch.cuda.memory.memory_summary())
