@@ -36,7 +36,7 @@ def main():
 
     # ClearML; Определение модели на которой будет происходить обучение
     model_name = "yolov8n"
-    dataset_name = 'pipe_Heat.v1'
+    dataset_name = 'pipe_Sewerage_red.v1'
 
     # Словарь гиперпараметров модели
     args = dict(
