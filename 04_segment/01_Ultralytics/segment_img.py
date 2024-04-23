@@ -12,7 +12,7 @@ schema_name_in_db = 'workflow'
 class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
 raw_mark_table_name_in_db = 'raw_mark_data'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\train79\\weights\\best.pt"
+weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\train3\\weights\\best.pt"
 # Путь к папке с файлами для анализа
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\datasets\\png_pipe_4cls.v4\\test\\images'
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
@@ -29,7 +29,7 @@ def pipe_add():
     # Запуск модели
     results = model(full_path_images,
                     conf=0.6,
-                    iou=0.6,
+                    iou=0.8,
                     #augment=True,
                     agnostic_nms=True
                     )

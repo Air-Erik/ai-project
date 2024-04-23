@@ -36,25 +36,23 @@ def main():
 
     # ClearML; Определение модели на которой будет происходить обучение
     model_name = "yolov8n"
-    dataset_name = 'png_pipe_6cls_long.v1'
+    dataset_name = 'pipe_Heat.v1'
 
     # Словарь гиперпараметров модели
     args = dict(
         data=f'datasets/{dataset_name}/data.yaml',
-        #optimizer='SGD',
+        # optimizer='SGD',
         epochs=100,
-        patience=20,
-        weight_decay=0.002,
+        patience=30,
         overlap_mask=False,
         degrees=45,
-        fliplr=0,
-        copy_paste=0.2
+        copy_paste=1
     )
 
     # ClearML; Создание объекта задачи для clearml, описывает проект и
     # название текущей сессии
     task = Task.init(
-        project_name="Segment_hyperparams",
+        project_name="1_class_segment",
         task_name=dataset_name,
         tags=[
             model_name,
