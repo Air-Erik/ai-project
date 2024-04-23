@@ -19,23 +19,34 @@ class_tab = 'classes'
 image_tab = 'image_data'
 drawing_tab = 'drawing_data'
 raw_mask_tab = 'raw_mask'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\train62\\weights\\best.pt"
-# Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\datasets\\png_pipe_4cls.v4\\test\\images'
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
 
-def pipe_add():
+# Путь к папке с файлами для анализа
+pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
+model_params = [
+    ['1_Heat_pipe', 0.8],
+    ['2_Sewerage_pipe', 0.8],
+    ['3_Gas_pipe', 0.8],
+    ['4_Pluming_pipe', 0.6],
+    ['5_Sewerage_red_pipe', 0.9]
+]
+
+
+def pipe_add(model_param):
     # Получение списков полных путей и имен изображений
     full_path_images = file_names_and_pth_creator(pth_to_image=pth_raw)[0]
     file_names = file_names_and_pth_creator(pth_to_image=pth_raw)[1]
+    print()
+    print('Используется модель:', model_param[0])
     print('Будут проанализированы изображения:', file_names, sep='\n')
 
     # Load a model
+    weight_pth = f'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\{model_param[0]}\\weights\\best.pt'
     model = YOLO(weight_pth)
 
     # Запуск модели
     results = model(full_path_images,
-                    conf=0.80,
+                    conf=0.6,
+                    iou=model_param[1],
                     stream=True,
                     agnostic_nms=True,
                     overlap_mask=False
@@ -61,40 +72,42 @@ def pipe_add():
 
         # Запись результатов работы нейросети.
         # Рамки, проценты, имена обработанных изображений и номера классов
-        mask = r.masks.xy
-        percent = r.boxes.conf.cpu().numpy()
-        image_name = r.path.split('\\')[-1:][0]
-        class_id = r.boxes.cls.cpu().numpy()
+        if r.masks is not None:
+            mask = r.masks.xy
+            percent = r.boxes.conf.cpu().numpy()
+            image_name = r.path.split('\\')[-1:][0]
+            class_id = r.boxes.cls.cpu().numpy()
 
-        # Создание списка имен классов из словаря. Словарь r.names
-        class_names_new = [r.names.get(ind) for ind in class_id]
+            # Создание списка имен классов из словаря. Словарь r.names
+            class_names_new = [r.names.get(ind) for ind in class_id]
 
-        pol_list = []
-        for i in mask:
-            pol_list.append(Polygon(i))
+            pol_list = []
+            for i in mask:
+                pol_list.append(Polygon(i))
 
-        df = pd.DataFrame({'mask': pol_list})
-        df['percent'] = percent
-        df['class_name'] = class_names_new
-        df['image_name'] = image_name
+            df = pd.DataFrame({'mask': pol_list})
+            df['percent'] = percent
+            df['class_name'] = class_names_new
+            df['image_name'] = image_name
 
-        # Приведение к типу float64 потому что postgreSQL ругается на тип
-        # данных float32
-        df = df.astype({'percent': 'float64'})
+            # Приведение к типу float64 потому что postgreSQL ругается на тип
+            # данных float32
+            df = df.astype({'percent': 'float64'})
 
-        with psycopg.connect('dbname=ai_project user=API_write_data password=1111') as conn:
-            for i in df.index:
-                conn.execute(
-                    query_input, (
-                        shapely.to_wkt(df['mask'][i]),
-                        df['class_name'][i],
-                        df['image_name'][i],
-                        df['image_name'][i],
-                        df['image_name'][i],
-                        df['percent'][i]
+            with psycopg.connect('dbname=ai_project user=API_write_data password=1111') as conn:
+                for i in df.index:
+                    conn.execute(
+                        query_input, (
+                            shapely.to_wkt(df['mask'][i]),
+                            df['class_name'][i],
+                            df['image_name'][i],
+                            df['image_name'][i],
+                            df['image_name'][i],
+                            df['percent'][i]
+                        )
                     )
-                )
 
 
 if __name__ == '__main__':
-    pipe_add()
+    for param in model_params:
+        pipe_add(param)
