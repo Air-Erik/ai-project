@@ -22,8 +22,9 @@ raw_mask_tab = 'raw_mask'
 
 # Путь к папке с файлами для анализа
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
+
 model_params = [
-    ['1_Heat_pipe', 0.8],
+    ['1_Heat_pipe', 0.9],
     ['2_Sewerage_pipe', 0.8],
     ['3_Gas_pipe', 0.8],
     ['4_Pluming_pipe', 0.6],
