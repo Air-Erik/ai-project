@@ -1,10 +1,6 @@
-import sys
 import os
 from ultralytics import YOLO
 from PIL import Image
-
-sys.path.insert(0, '../../03_init_database')
-from image_creator import file_names_and_pth_creator
 
 
 # Название схемы и таблиц и папки с обученными весами
@@ -16,7 +12,9 @@ model_name = '3.2_Gas_pipe'
 
 # Путь к весам модели
 weight_pth = os.path.join(
-    '.',
+    '..',
+    'learn',
+    'segment',
     'runs',
     'segment',
     model_name,
@@ -26,17 +24,25 @@ weight_pth = os.path.join(
 
 # Путь к папке с файлами для анализа
 pth_raw = os.path.join(
-    'C:\\',
-    'Repos',
-    'Ayrapetov',
-    '07_AI_project',
-    '04_segment',
-    '01_Ultralytics',
+    '.',
     'images'
 )
 
 
-def pipe_add():
+# Функция возвращает списки имен и путей к файлам изображений
+def file_names_and_pth_creator(pth_to_image=pth_raw):
+    # Получение списка имен файлов и списка полных путей к файлам
+    file_names = os.listdir(pth_to_image)
+    source = []
+
+    # Создание списка с полными путями до файлов
+    for i in range(len(file_names)):
+        source.append(os.path.join(pth_to_image, file_names[i]))
+
+    return source, file_names
+
+
+def pipe_add_img():
     # Получение списков полных путей и имен изображений
     full_path_images = file_names_and_pth_creator(pth_to_image=pth_raw)[0]
     file_names = file_names_and_pth_creator(pth_to_image=pth_raw)[1]
@@ -62,4 +68,4 @@ def pipe_add():
 
 
 if __name__ == '__main__':
-    pipe_add()
+    pipe_add_img()
