@@ -1,14 +1,10 @@
 import os
-import sys
 import pandas as pd
 import psycopg
 import shapely
 from ultralytics import YOLO
 from psycopg import sql
 from shapely.geometry import Polygon
-
-sys.path.insert(0, '../../03_init_database')
-from image_creator import file_names_and_pth_creator
 
 
 # Название схемы и таблиц и папки с обученными весами
@@ -34,6 +30,19 @@ model_params = [
 ]
 
 
+# Функция возвращает списки имен и путей к файлам изображений
+def file_names_and_pth_creator(pth_to_image=pth_raw):
+    # Получение списка имен файлов и списка полных путей к файлам
+    file_names = os.listdir(pth_to_image)
+    source = []
+
+    # Создание списка с полными путями до файлов
+    for i in range(len(file_names)):
+        source.append(os.path.join(pth_to_image, file_names[i]))
+
+    return source, file_names
+
+
 def pipe_add(model_param):
     # Получение списков полных путей и имен изображений
     full_path_images = file_names_and_pth_creator(pth_to_image=pth_raw)[0]
@@ -45,7 +54,9 @@ def pipe_add(model_param):
     # Load a model
     # Путь к весам модели
     weight_pth = os.path.join(
-        '.',
+        '..',
+        'learn',
+        'segment',
         'runs',
         'segment',
         model_param[0],
