@@ -6,9 +6,9 @@ print(torch.cuda.current_device())
 print(torch.cuda.get_device_name(0))
 print(torch.backends.cuda.matmul.allow_tf32)
 
-#torch.backends.cuda.matmul.allow_tf32 = True
-#print(torch.backends.cuda.matmul.allow_tf32)
-#print(torch.backends.cudnn.allow_tf32)
+# torch.backends.cuda.matmul.allow_tf32 = True
+# print(torch.backends.cuda.matmul.allow_tf32)
+# print(torch.backends.cudnn.allow_tf32)
 
 '''
 args = dict(
