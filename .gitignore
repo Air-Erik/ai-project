@@ -1,7 +1,12 @@
-datasets/
-runs/
-result/
-images/
+# Folders
+test/
+train/
+valid/
+
+# Images
+*.jpg
+*.png
+*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

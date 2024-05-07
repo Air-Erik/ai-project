@@ -1,0 +1,13 @@
+train: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Gas.v2/train/images
+val: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Gas.v2/valid/images
+test: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Gas.v2/test/images
+
+nc: 1
+names: ['Gas']
+
+roboflow:
+  workspace: bkn-ai
+  project: pipe_gas
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/bkn-ai/pipe_gas/dataset/2

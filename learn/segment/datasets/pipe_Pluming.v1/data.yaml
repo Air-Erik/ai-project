@@ -1,0 +1,13 @@
+train: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Pluming.v1/train/images
+val: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Pluming.v1/valid/images
+test: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Pluming.v1/test/images
+
+nc: 1
+names: ['Pluming']
+
+roboflow:
+  workspace: bkn-ai
+  project: pipe_pluming
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/bkn-ai/pipe_pluming/dataset/1

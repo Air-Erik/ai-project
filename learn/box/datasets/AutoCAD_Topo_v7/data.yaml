@@ -1,0 +1,13 @@
+train: C:/Repos/Ayrapetov/07_AI_project/01_learn/datasets/AutoCAD_Topo_v7/train/images
+val: C:/Repos/Ayrapetov/07_AI_project/01_learn/datasets/AutoCAD_Topo_v7/valid/images
+test: C:/Repos/Ayrapetov/07_AI_project/01_learn/datasets/AutoCAD_Topo_v7/images
+
+nc: 7
+names: ['asphalt', 'bushes', 'mark', 'meadow', 'sing', 'tree', 'well']
+
+roboflow:
+  workspace: trainautocad
+  project: autocad-topo
+  version: 7
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/trainautocad/autocad-topo/dataset/7

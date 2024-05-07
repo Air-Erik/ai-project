@@ -1,0 +1,13 @@
+train: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/png_pipe_6cls_long.v1/train/images
+val: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/png_pipe_6cls_long.v1/valid/images
+test: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/png_pipe_6cls_long.v1/test/images
+
+nc: 5
+names: ['Gas', 'Heat_pipe', 'Pluming', 'Sewerage', 'Sewerage_red']
+
+roboflow:
+  workspace: bkn-ai
+  project: png_pipe_6cls_long
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/bkn-ai/png_pipe_6cls_long/dataset/1

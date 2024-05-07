@@ -1,0 +1,13 @@
+train: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Sewerage_red.v2/train/images
+val: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Sewerage_red.v2/valid/images
+test: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Sewerage_red.v2/test/images
+
+nc: 1
+names: ['Sewerage_red']
+
+roboflow:
+  workspace: bkn-ai
+  project: pipe_sewerage_red
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/bkn-ai/pipe_sewerage_red/dataset/2
