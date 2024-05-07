@@ -13,16 +13,25 @@ class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
 raw_mark_table_name_in_db = 'raw_mark'
 
+# Путь к папке скрипта
+dir_pth = os.path.join(
+    'C:\\',
+    'Repos',
+    'Ayrapetov',
+    '07_AI_project',
+    'box'
+)
+
 # Путь к весам модели
 weight_pth = os.path.join(
-    '.',
+    dir_pth,
     'weight',
     'best.pt'
 )
 
 # Путь к папке с файлами для анализа
 pth_raw = os.path.join(
-    '.',
+    dir_pth,
     'images'
 )
 
@@ -85,7 +94,7 @@ def mark_add():
         # Создание размеченых изображений
         im_array = r.plot()
         im = Image.fromarray(im_array[..., ::-1])
-        im.save(f'result/{image_name}')
+        im.save(os.path.join(dir_pth, 'result', image_name))
 
         # Создание списка имен классов из словаря. Словарь r.names
         class_names_new = [r.names.get(ind) for ind in class_id]

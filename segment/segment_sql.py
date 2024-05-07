@@ -15,9 +15,18 @@ image_tab = 'image_data'
 drawing_tab = 'drawing_data'
 raw_mask_tab = 'raw_mask'
 
+# Путь к папке скрипта
+dir_pth = os.path.join(
+    'C:\\',
+    'Repos',
+    'Ayrapetov',
+    '07_AI_project',
+    'segment'
+)
+
 # Путь к папке с файлами для анализа
 pth_raw = os.path.join(
-    '.',
+    dir_pth,
     'images'
 )
 
