@@ -1,14 +1,9 @@
-import sys
+import os
 import psycopg
 import pandas as pd
-import numpy as np
 from ultralytics import YOLO
 from psycopg import sql
 from PIL import Image
-
-sys.path.insert(0, '../03_init_database')
-
-from image_creator import file_names_and_pth_creator
 
 
 # Название схемы и таблиц и папки с обученными весами
@@ -17,9 +12,32 @@ schema_general = 'general'
 class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
 raw_mark_table_name_in_db = 'raw_mark'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\02_mark\\weight\\best.pt"
+
+# Путь к весам модели
+weight_pth = os.path.join(
+    '.',
+    'weight',
+    'best.pt'
+)
+
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
+pth_raw = os.path.join(
+    '.',
+    'images'
+)
+
+
+# Функция возвращает списки имен и путей к файлам изображений
+def file_names_and_pth_creator(pth_to_image=pth_raw):
+    # Получение списка имен файлов и списка полных путей к файлам
+    file_names = os.listdir(pth_to_image)
+    source = []
+
+    # Создание списка с полными путями до файлов
+    for i in range(len(file_names)):
+        source.append(os.path.join(pth_to_image, file_names[i]))
+
+    return source, file_names
 
 
 def mark_add():
@@ -105,8 +123,6 @@ def mark_add():
                 print(f'Успешно добавлены метки из изображения {image_name}')
             except psycopg.errors.NotNullViolation:
                 print(f'Не удалось добавить метки из изображения {image_name}')
-            # except psycopg.errors.RaiseException:
-                # print(f'Не удалось вставить строку {i} изображения {image_name}')
     # i += 1 # Нужно для вывода размеченых изображений
 
 
