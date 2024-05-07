@@ -12,9 +12,8 @@ schema_name_in_db = 'workflow'
 class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
 raw_mark_table_name_in_db = 'raw_mark_data'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\5.2_Sewerage_red_pipe\\weights\\best.pt"
+weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\3.2_Gas_pipe\\weights\\best.pt"
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\datasets\\png_pipe_4cls.v4\\test\\images'
 pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
 
 def pipe_add():
@@ -29,7 +28,7 @@ def pipe_add():
     # Запуск модели
     results = model(full_path_images,
                     conf=0.6,
-                    iou=0.9,
+                    iou=0.8,
                     stream=True,
                     agnostic_nms=True,
                     overlap_mask=False
@@ -39,7 +38,7 @@ def pipe_add():
         im_array = r.plot()
         im = Image.fromarray(im_array[..., ::-1])
         image_name = r.path.split("\\")[-1:][0]
-        im.save(f'result/5.2_Sewerage_red_pipe/{image_name}')
+        im.save(f'result/3.2_Gas_pipe/{image_name}')
 
 
 if __name__ == '__main__':
