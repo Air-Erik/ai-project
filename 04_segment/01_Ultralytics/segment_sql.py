@@ -1,3 +1,4 @@
+import os
 import sys
 import pandas as pd
 import numpy as np
@@ -21,14 +22,17 @@ drawing_tab = 'drawing_data'
 raw_mask_tab = 'raw_mask'
 
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
+pth_raw = os.path.join(
+    '.',
+    'images'
+)
 
 model_params = [
     ['1_Heat_pipe', 0.9],
     ['2_Sewerage_pipe', 0.8],
-    ['3_Gas_pipe', 0.8],
+    ['3.1_Gas_pipe', 0.8],
     ['4_Pluming_pipe', 0.6],
-    ['5_Sewerage_red_pipe', 0.9]
+    ['5.1_Sewerage_red_pipe', 0.9]
 ]
 
 
@@ -41,7 +45,15 @@ def pipe_add(model_param):
     print('Будут проанализированы изображения:', file_names, sep='\n')
 
     # Load a model
-    weight_pth = f'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\{model_param[0]}\\weights\\best.pt'
+    # Путь к весам модели
+    weight_pth = os.path.join(
+        '.',
+        'runs',
+        'segment',
+        model_param[0],
+        'weights',
+        'best.pt'
+    )
     model = YOLO(weight_pth)
 
     # Запуск модели

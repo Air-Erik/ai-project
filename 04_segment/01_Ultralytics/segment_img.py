@@ -12,9 +12,29 @@ schema_name_in_db = 'workflow'
 class_table_name_in_db = 'classes'
 image_table_name_in_db = 'image_data'
 raw_mark_table_name_in_db = 'raw_mark_data'
-weight_pth = "C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\runs\\segment\\3.2_Gas_pipe\\weights\\best.pt"
+model_name = '3.2_Gas_pipe'
+
+# Путь к весам модели
+weight_pth = os.path.join(
+    '.',
+    'runs',
+    'segment',
+    model_name,
+    'weights',
+    'best.pt'
+)
+
 # Путь к папке с файлами для анализа
-pth_raw = 'C:\\Repos\\Ayrapetov\\07_AI_project\\04_segment\\01_Ultralytics\\images'
+pth_raw = os.path.join(
+    'C:\\',
+    'Repos',
+    'Ayrapetov',
+    '07_AI_project',
+    '04_segment',
+    '01_Ultralytics',
+    'images'
+)
+
 
 def pipe_add():
     # Получение списков полных путей и имен изображений
@@ -38,7 +58,7 @@ def pipe_add():
         im_array = r.plot()
         im = Image.fromarray(im_array[..., ::-1])
         image_name = r.path.split("\\")[-1:][0]
-        im.save(f'result/3.2_Gas_pipe/{image_name}')
+        im.save(f'result/{model_name}/{image_name}')
 
 
 if __name__ == '__main__':
