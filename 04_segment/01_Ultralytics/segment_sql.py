@@ -1,13 +1,11 @@
 import os
 import sys
 import pandas as pd
-import numpy as np
 import psycopg
 import shapely
 from ultralytics import YOLO
 from psycopg import sql
-from PIL import Image
-from shapely.geometry import Polygon, LineString
+from shapely.geometry import Polygon
 
 sys.path.insert(0, '../../03_init_database')
 from image_creator import file_names_and_pth_creator
@@ -78,8 +76,7 @@ def pipe_add(model_param):
         )
     ''').format(table_raw_mask=sql.Identifier(schema_pipe, raw_mask_tab),
                 table_class=sql.Identifier(schema_general, class_tab),
-                table_image=sql.Identifier(schema_general, image_tab)
-    )
+                table_image=sql.Identifier(schema_general, image_tab))
 
     for r in results:
 
@@ -107,7 +104,8 @@ def pipe_add(model_param):
             # данных float32
             df = df.astype({'percent': 'float64'})
 
-            with psycopg.connect('dbname=ai_project user=API_write_data password=1111') as conn:
+            with psycopg.connect('dbname=ai_project \
+            user=API_write_data password=1111') as conn:
                 for i in df.index:
                     conn.execute(
                         query_input, (

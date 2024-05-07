@@ -2,11 +2,10 @@ from clearml import Task
 from ultralytics import YOLO
 import torch
 import os
-import sys
 
 
 torch.backends.cuda.matmul.allow_tf32 = True
-#torch.cuda.memory.set_per_process_memory_fraction(0.5)
+# torch.cuda.memory.set_per_process_memory_fraction(0.5)
 
 # Получаем путь к директории, где находится скрипт
 script_dir = os.path.dirname(os.path.abspath(__file__))

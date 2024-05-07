@@ -1,4 +1,3 @@
-from clearml import Task
 from ultralytics import YOLO
 import torch
 
@@ -23,8 +22,7 @@ def main():
                optimizer='AdamW',
                plots=False,
                save=False,
-               val=False
-    )
+               val=False)
 
 
 if __name__ == '__main__':
