@@ -44,6 +44,8 @@ def mark_add():
     # Получение списков полных путей и имен изображений
     full_path_images = file_names_and_pth_creator(pth_to_image=pth_raw)[0]
     file_names = file_names_and_pth_creator(pth_to_image=pth_raw)[1]
+    print()
+    print('Распознавание точечных меток')
     print('Будут проанализированы изображения:', file_names, sep='\n')
 
     # Создание SQL запроса на добавление данных о рамках
