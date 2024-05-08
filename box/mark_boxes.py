@@ -49,7 +49,7 @@ def file_names_and_pth_creator(pth_to_image=pth_raw):
     return source, file_names
 
 
-def mark_add():
+def mark_add(pth_raw=pth_raw):
     # Получение списков полных путей и имен изображений
     full_path_images = file_names_and_pth_creator(pth_to_image=pth_raw)[0]
     file_names = file_names_and_pth_creator(pth_to_image=pth_raw)[1]
