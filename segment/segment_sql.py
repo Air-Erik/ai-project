@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import psycopg
 import shapely
+from PIL import Image
 from ultralytics import YOLO
 from psycopg import sql
 from shapely.geometry import Polygon
@@ -63,7 +64,10 @@ def pipe_add_sql(model_param):
     # Load a model
     # Путь к весам модели
     weight_pth = os.path.join(
-        '..',
+        'C:\\',
+        'Repos',
+        'Ayrapetov',
+        '07_AI_project',
         'learn',
         'segment',
         'runs',
@@ -99,6 +103,10 @@ def pipe_add_sql(model_param):
                 table_image=sql.Identifier(schema_general, image_tab))
 
     for r in results:
+        im_array = r.plot()
+        im = Image.fromarray(im_array[..., ::-1])
+        image_name = r.path.split("\\")[-1:][0]
+        im.save(os.path.join(dir_pth, 'result', model_param[0], image_name))
 
         # Запись результатов работы нейросети.
         # Рамки, проценты, имена обработанных изображений и номера классов
