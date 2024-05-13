@@ -63,6 +63,7 @@ def pipe_add_sql(model_param, pth_raw=pth_raw):
 
     # Load a model
     # Путь к весам модели
+    # Поправить путь!!!!!
     weight_pth = os.path.join(
         'C:\\',
         'Repos',
