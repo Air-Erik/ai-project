@@ -1,0 +1,12 @@
+names:
+- Heat_pipe
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: pipe_heat
+  url: https://universe.roboflow.com/bkn-ai/pipe_heat/dataset/1
+  version: 1
+  workspace: bkn-ai
+test: C:/Repos/Ayrapetov/07_AI_project/learn/segment/datasets/pipe_Heat.v1/test/images
+train: C:\Repos\Ayrapetov\07_AI_project\learn\segment\datasets\pipe_heat.v1_aug\train\images
+val: C:\Repos\Ayrapetov\07_AI_project\learn\segment\datasets\pipe_heat.v1_aug\valid\images

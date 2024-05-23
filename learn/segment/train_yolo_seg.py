@@ -39,7 +39,7 @@ data_pth = os.path.join(
 
 # Функция скачивания датасета с Roboflow
 def load_dataset(data_pth=data_pth,
-                 dataset_name='dataset',
+                 dataset_name='datasets',
                  project_name='pipe_sewerage_red',
                  version=1):
     full_path = os.path.join(data_pth, dataset_name)
@@ -52,25 +52,6 @@ def load_dataset(data_pth=data_pth,
     dataset = version.download('yolov8', location=full_path)
 
     return dataset.location
-
-
-# Функция для проверки имени папки на уникальность
-def get_unique_directory_name(directory, base_name):
-    # Начальный номер
-    number = 1
-
-    while True:
-        # Формируем имя папки
-        folder_name = f"{base_name}_{number:02d}"
-        full_path = os.path.join(directory, folder_name)
-
-        try:
-            # Пытаемся создать директорию
-            os.makedirs(full_path, exist_ok=False)
-            return full_path
-        except FileExistsError:
-            # Если директория существует, увеличиваем номер
-            number += 1
 
 
 # Функция для создания списка тегов из словаря гиперпараметров
@@ -105,7 +86,7 @@ def train_yolo(
         project_name='pipe_sewerage_red',
         version=1,
         model_name='yolov8n',
-        aug=True):
+        aug=False):
 
     """
     Функция для обучения модели YOLO
@@ -127,9 +108,7 @@ def train_yolo(
         project_name=project_name,
         version=version
     )
-    print(pth_to_data)
     print(data_pth_load)
-    print(dataset_name)
 
     # Создание датасета с доп аугментациями
     if aug:
@@ -140,29 +119,20 @@ def train_yolo(
             mode='tv'
         )
 
-    # Создание имени папки для хранения весов
-    folder_name = get_unique_directory_name(
-        directory='./datasets',
-        base_name=dataset_name
-    )
-
     # Словарь гиперпараметров модели
     args = dict(
         data=f'datasets/{dataset_name}/data.yaml',
-        name=folder_name,
+        name=dataset_name,
         epochs=100,
         patience=30,
-        degrees=0,
-        hsv_s=0.1,
-        hsv_v=0.1,
-        scale=0.1,
-        copy_paste=0.0
+        degrees=45,
+        copy_paste=1
     )
 
     # ClearML; Создание объекта задачи для clearml, описывает проект и
     # название текущей сессии
     task = Task.init(
-        project_name="AI_bot",
+        project_name="1_class_segment",
         task_name=dataset_name,
         tags=[
             model_name,
@@ -171,7 +141,7 @@ def train_yolo(
         )
     task.set_parameter("model_variant", model_name)
 
-    model = YOLO(f'{model_name}.pt')
+    model = YOLO(f'{model_name}-seg.pt')
 
     task.connect(args)
 
@@ -192,7 +162,7 @@ project_names = [
 if __name__ == '__main__':
     train_yolo(
         pth_to_data=data_pth,
-        project_name='pipe_sewerage_red',
-        version=3,
-        aug=False
+        project_name='pipe_heat',
+        version=1,
+        aug=True
         )
